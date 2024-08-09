@@ -1,0 +1,199 @@
+#include <stdio.h>
+#include <stdlib.h>
+// Define a structure for a node in the linked list
+struct Node {
+    int data;
+    struct Node* next;
+};
+// Function prototypes
+void insertElement(struct Node** head, int data);
+void deleteElement(struct Node** head, int data);
+void displayList(struct Node* head);
+int searchElement(struct Node* head, int data);
+void displayEvenElements(struct Node* head);
+int sumOfEvenElements(struct Node* head);
+void displayReverseOrder(struct Node* head);
+// Function to insert an element into the linked list
+void insertElement(struct Node** head, int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+newNode->next = NULL;
+
+    if (*head == NULL) {
+        *head = newNode;
+    } else {
+        struct Node* temp = *head;
+        while (temp->next != NULL) {
+            temp = temp->next;
+        }
+        temp->next = newNode;
+    }
+    printf("Element %d inserted.\n", data);
+}
+
+// Function to delete an element from the linked list
+void deleteElement(struct Node** head, int data) {
+    struct Node* temp = *head;
+struct Node* prev = NULL;
+
+    if (temp != NULL && temp->data == data) {
+        *head = temp->next;
+        free(temp);
+        printf("Element %d deleted.\n", data);
+        return;
+    }
+
+    while (temp != NULL && temp->data != data) {
+        prev = temp;
+        temp = temp->next;
+    }
+
+    if (temp == NULL) {
+        printf("Element %d not found in the list.\n", data);
+ return;
+    }
+
+    prev->next = temp->next;
+    free(temp);
+    printf("Element %d deleted.\n", data);
+}
+
+// Function to display all elements in the linked list
+void displayList(struct Node* head) {
+    struct Node* temp = head;
+
+    if (temp == NULL) {
+        printf("List is empty.\n");
+        return;
+    }
+ printf("Elements in the list:\n");
+    while (temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+// Function to search for an element in the linked list
+int searchElement(struct Node* head, int data) {
+    struct Node* temp = head;
+    int position = 0;
+
+    while (temp != NULL) {
+        if (temp->data == data) {
+            printf("Element %d found at position %d.\n", data, position);
+            return position;
+        }
+        temp = temp->next;
+        position++;
+    }
+
+    printf("Element %d not found in the list.\n", data);
+    return -1;
+}
+
+// Function to display even elements in the linked list
+void displayEvenElements(struct Node* head) {
+    struct Node* temp = head;
+    int found = 0;
+
+    printf("Even elements in the list:\n");
+    while (temp != NULL) {
+        if (temp->data % 2 == 0) {
+            printf("%d ", temp->data);
+            found = 1;
+        }
+        temp = temp->next;
+    }
+    if (!found) {
+        printf("No even elements found in the list.\n");
+    }
+printf("\n");
+}
+
+// Function to calculate the sum of even elements in the linked list
+int sumOfEvenElements(struct Node* head) {
+    struct Node* temp = head;
+    int sum = 0;
+
+    while (temp != NULL) {
+        if (temp->data % 2 == 0) {
+            sum += temp->data;
+        }
+        temp = temp->next;
+    }
+    printf("Sum of even elements: %d\n", sum);
+    return sum;
+}
+// Function to display elements in reverse order
+void displayReverseOrder(struct Node* head) {
+    if (head == NULL) {
+        printf("List is empty.\n");
+        return;
+    }
+
+    displayReverseOrder(head->next);
+    printf("%d ", head->data);
+}
+
+// Main function to run the program
+int main() {
+    struct Node* head = NULL;
+int choice, element, position;
+
+    while (1) {
+        printf("\nOperations:\n");
+        printf("1. Insert\n");
+        printf("2. Delete\n");
+        printf("3. Display\n");
+        printf("4. Search\n");
+        printf("5. Display Even Elements\n");
+        printf("6. Sum of Even Elements\n");
+        printf("7. Display in Reverse Order\n");
+        printf("8. Exit\n");
+
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+switch (choice) {
+            case 1:
+                printf("Enter element to insert: ");
+                scanf("%d", &element);
+                insertElement(&head, element);
+                break;
+            case 2:
+                printf("Enter element to delete: ");
+                scanf("%d", &element);
+                deleteElement(&head, element);
+                break;
+            case 3:
+                displayList(head);
+                break;
+            case 4:
+ printf("Enter element to search: ");
+                scanf("%d", &element);
+                position = searchElement(head, element);
+                break;
+            case 5:
+                displayEvenElements(head);
+                break;
+            case 6:
+                sumOfEvenElements(head);
+                break;
+            case 7:
+                printf("Elements in reverse order: ");
+                displayReverseOrder(head);
+                printf("\n");
+                break;
+            case 8:
+                printf("Exiting program.\n");
+                exit(0);
+            default:
+  printf("Invalid choice. Please enter a valid option.\n");
+                break;
+        }
+    }
+
+    return 0;
+}
